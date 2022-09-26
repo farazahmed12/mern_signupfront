@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import "./App.css";
 
 function App() {
@@ -32,10 +33,29 @@ function App() {
       password: e,
     });
   };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const registered = {
+      fullName: state.fullName,
+      username: state.username,
+      email: state.email,
+      password: state.password,
+    };
+
+    axios.post("http://localhost:4000/app/signup", registered);
+
+    setState({
+      fullName: "",
+      username: "",
+      email: "",
+      password: "",
+    });
+  };
+
   return (
     <div className="container">
       <div className="form-div">
-        <form>
+        <form onSubmit={handleSubmit}>
           <input
             placeholder="Full Name"
             type="text"
@@ -59,7 +79,7 @@ function App() {
           />
           <input
             placeholder="Password"
-            type="text"
+            type="password"
             onChange={(e) => changePassword(e.target.value)}
             value={state.password}
             className="form-control form-group"
